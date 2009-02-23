@@ -1,0 +1,3 @@
+# 1st line is the num of the last mail, 2nd is the uidl of the last mail.
+ 62
+ UID70-1198240038

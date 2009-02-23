@@ -1,0 +1,19 @@
+to: laonger@long-er.name
+from: laonger@long-er.name
+date: Sun Feb 22 12:27:07 2009
+subject: =?utf-8?b?5rWL6K+V?=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+5rWL6K+V5LiA5LiL
+
+to: yuelang85@gmail.com
+from: laonger@long-er.name
+date: Sun Feb 22 12:28:30 2009
+subject: =?utf-8?b?6L+Z5piv5qCH6aKY?=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+6L+Z5piv5q2j5paH56ys5LiA6KGMCui/meaYr+ato+aWh+esrOS6jOihjAo=

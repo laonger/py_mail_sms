@@ -1,0 +1,11 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+Getter	1.py	/^class Getter:$/;"	c
+er	1.py	/^		d=defer.Deferred()$/;"	f	function:Getter.getData
+er	1.py	/^from twisted.internet import reactor,defer$/;"	f
+getData	1.py	/^	def getData(self,x):$/;"	m	class:Getter
+printData	1.py	/^def printData(d):$/;"	f

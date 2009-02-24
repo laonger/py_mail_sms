@@ -9,15 +9,16 @@ Copyright (c) 2008 la.onger All rights reserved.
 class account:
 	
 	#email account:
-	pophost = 'mail.long-er.name'
-	smtphost = 'mail.long-er.name'
-	username = 'laonger@long-er.name'
-	email_password = '2101021'
-	email = 'laonger@long-er.name'
+	pophost = '' #邮箱的pop服务器
+	smtphost = '' #邮箱的smtp服务器
+	username = '' #邮箱的帐户
+	email_password = '' #邮箱的密码
+	email = '' #发信用的邮箱地址
 	ifssl = 0 #如果服务器需要使用ssl加密，则选择此项.
+	fresh_time=15 #检查邮件的周期，单位是秒
 
 	#Fetion account:
-	mobile="15001195207"
-	password="829508ll"
-	to=["sip:707525008@fetion.com.cn;p=4016","13811520754"] #696169984#sip=Fetion_account_number@fetion.com.cn;
+	mobile="" #用来登陆飞信的手机号
+	password="" #飞信密码
+	to=["sip:接收信息的手机的飞信帐号@fetion.com.cn;p=这里填上手机号码的前6位与134099的差","接收信息的手机号码"] #sip=Fetion_account_number@fetion.com.cn;
                                         	#p=(first_six_number_of_mobilephone)-(134099)

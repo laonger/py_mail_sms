@@ -23,34 +23,28 @@ class FetionClient(LineReceiver):
 	
 	def __init__(self):
 		pass
-		#self.callTime=5
 	
 	def connectionMade(self):
-		global fetion_reconnected
-		#print fetion_reconnected
 		self._do_login()
 		print "connectionMade"
 		reactor.callLater(15,self.check_mail)
-		#self.check_mail()
 		
-	#def connectionLost(self,reason):
-		#if vars().has_key('self.call_later'):
-		#self.call_later.cancel()
-		#print self.call_later
-		#print "lost"
+	def connectionLost(self,reason):
+		if vars(self).has_key('call_later'):
+			self.call_later.cancel()
+			print "lost"
 	
 	def check_mail(self):
-		print "check mail"
+		print "checking mail...."
 		checkmail=mail()
 		sms=checkmail.new_mail_notice()
 		print sms
 		if sms == None:
 			print "\nThere is no new mail."
 		else:
-			#print sms
 			self.sendLongSMS(sms)
-			print "send"
-		self.call_later=reactor.callLater(5,self.check_mail)
+			print "send mail head"
+		self.call_later=reactor.callLater(account.fresh_time,self.check_mail)
 		
 	
 	def _do_login(self):
@@ -135,11 +129,9 @@ class FetionClient(LineReceiver):
 		self.sendLine(msg)
 
 	def sendLongSMS(self, body):
-		#print "sending"
 		to = account.to[0]
 		fetion = self.factory.fetion		
 		msg = SIPMsgRequest(fetion, 'M', {'T': to, 'N': 'SendCatSMS'}, body, True).to_string()
-		#print "send"
 		self.sendLine(msg)
 
 class FetionClientFactory(ClientFactory):
@@ -165,8 +157,6 @@ class FetionClientFactory(ClientFactory):
 
 	def clientConnectionLost(self, connector, reason):
 		print 'connection lost:', reason.getErrorMessage()
-		self.client.call_later.cancel()
-		print "lost"
 		try:
 			connector.connect()
 			print "reconnected"
@@ -175,10 +165,10 @@ class FetionClientFactory(ClientFactory):
 
 def main():
 
-	mobile = '15001195207'
+	mobile = account.mobile
 	hostname = 'localhost'
 	port = 8765
-	password = '829508ll'
+	password = account.password
 
 	fetion = Fetion(mobile, password)
 	fetion.get_system_config()

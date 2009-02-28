@@ -178,6 +178,7 @@ class mail:
 		msg = conn.top(mail_num, '-1' )[1]
 		conn.quit()
 		msg = email.message_from_string(string.join(msg, '\n'))
+		self.content = ""
 		self._content_parser(msg)
 		msg = "\n"+self._get_mail_head(mail_num)[0]+"\nMSG:\n"+self.content
 		self.content = ''

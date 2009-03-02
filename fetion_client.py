@@ -42,7 +42,7 @@ class FetionClient(LineReceiver):
 		if sms == None:
 			print "\nThere is no new mail."
 		else:
-			self.sendLongSMS(sms)
+			self.processLongSMS(sms)
 			print "send mail head"
 		self.call_later=reactor.callLater(account.fresh_time,self.check_mail)
 		
@@ -103,17 +103,17 @@ class FetionClient(LineReceiver):
 				
 				if re.match("^get\s+\d",response.body,re.I):
 					sms=getmail.get_whole_mail(re.findall("[\d]+",response.body)[0])
-					self.sendLongSMS(sms)
+					self.processLongSMS(sms)
 				
 				elif re.match("^[T:]",response.body,re.I):
 					#and re.match("^[Sub:]",response.body,re.I) \
 					#and re.match("^[MSG:]",response.body,re.I):
 					print "try to send...."
 					print type(response.body)
-					self.sendLongSMS(getmail.send_mail(response.body))
+					self.processLongSMS(getmail.send_mail(response.body))
 				
 				elif re.match("^[check]",response.body,re.I):
-					self.sendLongSMS(getmail.new_mail_notice(ifauto=0))
+					self.processLongSMS(getmail.new_mail_notice(ifauto=0))
 						
 			print 'From:', response.headers['F']
 			if (response.body == 'hi'):
@@ -121,14 +121,31 @@ class FetionClient(LineReceiver):
 			print 'Got message:', response.body
 			self._accept_message(response)
 
-	def sendSMS(self, body):
-		fetion = self.factory.fetion
-		to=account.to[0]
-		msg = SIPMsgRequest(fetion, 'M', {'T': to, 'N': 'SendSMS'}, body, True).to_string()
-		print msg
-		self.sendLine(msg)
+	#def sendSMS(self, body):
+	#	fetion = self.factory.fetion
+	#	to=account.to[0]
+	#	msg = SIPMsgRequest(fetion, 'M', {'T': to, 'N': 'SendSMS'}, body, True).to_string()
+	#	print msg
+	#	self.sendLine(msg)
 
-	def sendLongSMS(self, body):
+	def processLongSMS(self, msg):
+		"""
+		此函数用于处理字数大于1840字的信息（飞信的上限），分解成几个部分，由sendSMS函数发送
+		
+		msg -- str 要处理的长信息
+		"""
+		msg = unicode(msg,'utf-8')
+		if len(msg)>1840:
+			if len(msg)%1840:
+				self.processLongSMS(msg[0:-len(msg)%1840-1].encode('utf-8'))
+				reactor.callLater(5,self.processLongSMS,msg[-len(msg)%1840:-1].encode('utf-8'))
+			else:
+				for n in xrange(1,len(msg)/1840):
+					reactor.callLater(5*n,self.processLongSMS,msg[(n-1)*1840:n*1840+1].encode('utf-8'))
+		else:
+			self.sendSMS(msg.encode('utf-8'))
+
+	def sendSMS(self, body):
 		to = account.to[0]
 		fetion = self.factory.fetion		
 		msg = SIPMsgRequest(fetion, 'M', {'T': to, 'N': 'SendCatSMS'}, body, True).to_string()
